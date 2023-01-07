@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/MochamadAkbar/ordent-test/common/colorize"
+	"github.com/MochamadAkbar/ordent-test/common/constants"
 	"github.com/MochamadAkbar/ordent-test/config"
 	"github.com/joho/godotenv"
 )
@@ -34,11 +35,11 @@ func main() {
 	router := config.NewRouter()
 	server := config.NewServer(router)
 
-	badge := colorize.MessageColorized(colorize.Green, "ready")
+	badge := colorize.MessageColorized(constants.Green, "ready")
 	msg := fmt.Sprintf("[%s] started serve on [::]%s", badge, ":5000")
 	log.Println(msg)
 	if err := server.ListenAndServe(); err != nil {
-		badge = colorize.MessageColorized(colorize.Red, "stop")
+		badge = colorize.MessageColorized(constants.Red, "stop")
 		msg = fmt.Sprintf("[%s] server failed to start : %s", badge, err.Error())
 		log.Fatalln(msg)
 	}
