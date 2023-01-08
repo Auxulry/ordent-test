@@ -10,5 +10,6 @@ func NewRouter() *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Use(middleware.Recovery)
+	router.Use(middleware.CORS)
 	return router
 }

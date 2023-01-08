@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 
+	commonErr "github.com/MochamadAkbar/ordent-test/common/errors"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -82,7 +83,7 @@ func JwtValidate(method JwtMethod, tokenString string, key []byte) (jwt.MapClaim
 		if ok {
 			return claims, nil
 		} else {
-			return jwt.MapClaims{}, errors.New("token not valid")
+			return jwt.MapClaims{}, commonErr.ErrUnauthorized
 		}
 	} else {
 		return jwt.MapClaims{}, err

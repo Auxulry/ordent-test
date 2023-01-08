@@ -141,6 +141,56 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ServerErrorResponse"
+  /carts:
+    post:
+      tags:
+        - Carts API
+      description: "Add to cart"
+      summary: "Add to cart"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                product_id:
+                  type: number
+                quantity:
+                  type: number
+              required:
+                - product_id
+                - quantity
+      responses:
+        '201':
+          description: "Successfully add product to cart"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number
+                  status:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      product_id:
+                        type: number
+                      quantity:
+                        type: number
+        '401':
+          description: "Unauthorized"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
+        '500':
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerErrorResponse"
 components:
   securitySchemes:
     BearerAuth:

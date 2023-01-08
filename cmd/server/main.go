@@ -3,14 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/MochamadAkbar/ordent-test/injector"
-	"github.com/go-chi/chi/v5"
+	"github.com/MochamadAkbar/ordent-test/handler"
 	"log"
 	"os"
 
 	"github.com/MochamadAkbar/ordent-test/common/colorize"
 	"github.com/MochamadAkbar/ordent-test/common/constants"
 	"github.com/MochamadAkbar/ordent-test/config"
+	"github.com/MochamadAkbar/ordent-test/injector"
+	"github.com/go-chi/chi/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -36,7 +37,8 @@ func main() {
 
 	router := config.NewRouter()
 	router.Route("/api", func(r chi.Router) {
-		injector.InitializeUserService(db, r)
+		_ = injector.InitializeUserService(db, r)
+		r.Mount("/", handler.NewCartHandler())
 	})
 
 	server := config.NewServer(router)

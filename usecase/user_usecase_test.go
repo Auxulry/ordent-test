@@ -60,8 +60,8 @@ func TestUserUsecaseImpl_Register(t *testing.T) {
 func TestUserUsecase_Login(t *testing.T) {
 	t.Run("Test User Use Case Login Success", func(t *testing.T) {
 		user := entity.User{
-			Email:    "johndoe@gmail.com",
-			Password: "Password",
+			Email:    "test@gmail.com",
+			Password: "test123",
 		}
 
 		ctx := context.Background()

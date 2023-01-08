@@ -1,4 +1,4 @@
-// Package repository is describe all action to database
+// Package repository is described all action to database
 package repository
 
 import (
