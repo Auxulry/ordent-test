@@ -4,6 +4,7 @@ import (
 	"context"
 	"testing"
 
+	commonErr "github.com/MochamadAkbar/ordent-test/common/errors"
 	"github.com/MochamadAkbar/ordent-test/entity"
 	"github.com/MochamadAkbar/ordent-test/repository"
 	"github.com/stretchr/testify/assert"
@@ -49,7 +50,7 @@ func TestUserUsecaseImpl_Register(t *testing.T) {
 		result, err := userUsecase.Register(ctx, &user)
 
 		assert.NotNil(t, err)
-		assert.Equal(t, "internal server error", err.Error())
+		assert.Equal(t, commonErr.ErrInternalServer.Error(), err.Error())
 		assert.Equal(t, 0, result.UserID)
 		assert.Equal(t, "", result.Token)
 		assert.Equal(t, int64(0), result.ExpiresIn)
@@ -77,7 +78,7 @@ func TestUserUsecase_Login(t *testing.T) {
 
 	t.Run("Test User Use Case Login Failed", func(t *testing.T) {
 		user := entity.User{
-			Name:     "John Doe",
+			Name:     "john doe",
 			Email:    "johndoe@gmail.com",
 			Password: "Password",
 		}
@@ -89,7 +90,7 @@ func TestUserUsecase_Login(t *testing.T) {
 		result, err := userUsecase.Login(ctx, &user)
 
 		assert.NotNil(t, err)
-		assert.Equal(t, "user not found", err.Error())
+		assert.Equal(t, commonErr.ErrNotFound.Error(), err.Error())
 		assert.Equal(t, 0, result.UserID)
 		assert.Equal(t, "", result.Token)
 		assert.Equal(t, int64(0), result.ExpiresIn)

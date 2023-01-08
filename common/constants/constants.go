@@ -1,7 +1,9 @@
 // Package constants is describe all constants used in this source
 package constants
 
-import "time"
+import (
+	"time"
+)
 
 const (
 	Green        = "\u001B[32m"
@@ -18,3 +20,5 @@ const (
 )
 
 const Salt = 4
+
+const DefaultErrCode = 599

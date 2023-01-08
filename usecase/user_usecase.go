@@ -3,12 +3,12 @@ package usecase
 
 import (
 	"context"
-	"errors"
 	"os"
 	"time"
 
 	"github.com/MochamadAkbar/ordent-test/api"
 	"github.com/MochamadAkbar/ordent-test/common/constants"
+	commonErr "github.com/MochamadAkbar/ordent-test/common/errors"
 	commonJwt "github.com/MochamadAkbar/ordent-test/common/jwt"
 	"github.com/MochamadAkbar/ordent-test/entity"
 	"github.com/MochamadAkbar/ordent-test/repository"
@@ -38,7 +38,7 @@ func (usecase *UserUsecaseImpl) Register(ctx context.Context, user *entity.User)
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(user.Password), constants.Salt)
 	if err != nil {
-		return resp, err
+		return resp, commonErr.ErrInternalServer
 	}
 
 	user.Password = string(hash)
@@ -46,7 +46,7 @@ func (usecase *UserUsecaseImpl) Register(ctx context.Context, user *entity.User)
 	result, ok := usecase.Repository.Register(ctx, user)
 
 	if !ok {
-		return resp, errors.New("internal server error")
+		return resp, commonErr.ErrInternalServer
 	}
 
 	token, err := commonJwt.JwtClaims(
@@ -74,7 +74,7 @@ func (usecase *UserUsecaseImpl) Login(ctx context.Context, user *entity.User) (a
 
 	result, ok := usecase.Repository.Login(ctx, user)
 	if !ok {
-		return api.UserResponse{}, errors.New("user not found")
+		return api.UserResponse{}, commonErr.ErrNotFound
 	}
 
 	token, err := commonJwt.JwtClaims(

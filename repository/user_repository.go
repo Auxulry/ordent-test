@@ -23,21 +23,21 @@ func (repository *UserRepositoryImpl) Register(ctx context.Context, user *entity
 
 	err := repository.Conn.QueryRow(ctx, statement, user.Name, user.Email, user.Password).Scan(&row.ID)
 	if err != nil {
-		panic(err.Error())
+		return row, false
 	}
 
 	return row, true
 }
 
 func (repository *UserRepositoryImpl) Login(ctx context.Context, user *entity.User) (entity.User, bool) {
-	var result entity.User
+	var row entity.User
 	statement := `SELECT "id", "email", "password" FROM "users" WHERE "email" = $1;`
 
 	err := repository.Conn.QueryRow(ctx, statement, user.Email).
-		Scan(&result.ID, &result.Email, &result.Password)
+		Scan(&row.ID, &row.Email, &row.Password)
 	if err != nil {
-		panic(err.Error())
+		return row, false
 	}
 
-	return result, true
+	return row, true
 }
