@@ -13,3 +13,6 @@ lint:
 test:
 	go test -v ./...
 .PHONY: test
+
+wire_gen:
+	wire gen github.com/MochamadAkbar/ordent-test/injector

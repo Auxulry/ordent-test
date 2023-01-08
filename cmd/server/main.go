@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"github.com/MochamadAkbar/ordent-test/injector"
+	"github.com/go-chi/chi/v5"
 	"log"
 	"os"
 
@@ -33,6 +35,10 @@ func main() {
 	defer db.Close()
 
 	router := config.NewRouter()
+	router.Route("/api", func(r chi.Router) {
+		injector.InitializeUserService(db, r)
+	})
+
 	server := config.NewServer(router)
 
 	badge := colorize.MessageColorized(constants.Green, "ready")

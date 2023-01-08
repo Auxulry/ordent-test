@@ -11,6 +11,7 @@ import (
 var (
 	ErrNotFound       error = errors.New("NOT_FOUND")
 	ErrInternalServer       = errors.New("INTERNAL_SERVER_ERROR")
+	ErrUnauthorized         = errors.New("UNAUTHORIZED")
 )
 
 func GetHTTPErrorCode(err error) int {
@@ -18,6 +19,8 @@ func GetHTTPErrorCode(err error) int {
 		return http.StatusNotFound
 	} else if errors.Is(err, ErrInternalServer) {
 		return http.StatusInternalServerError
+	} else if errors.Is(err, ErrUnauthorized) {
+		return http.StatusUnauthorized
 	} else {
 		return constants.DefaultErrCode
 	}

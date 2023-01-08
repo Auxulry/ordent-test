@@ -17,6 +17,10 @@ type UserRepositoryImpl struct {
 	Conn *pgxpool.Pool
 }
 
+func NewUserRepository(conn *pgxpool.Pool) UserRepository {
+	return &UserRepositoryImpl{Conn: conn}
+}
+
 func (repository *UserRepositoryImpl) Register(ctx context.Context, user *entity.User) (entity.User, bool) {
 	var row entity.User
 	statement := `INSERT INTO "users" ("name", "email", "password") VALUES($1, $2, $3) RETURNING "id";`

@@ -25,7 +25,7 @@ type UserUsecaseImpl struct {
 	Repository repository.UserRepository
 }
 
-func _(repository repository.UserRepository) UserUsecase {
+func NewUserUseCase(repository repository.UserRepository) UserUsecase {
 	return &UserUsecaseImpl{
 		Repository: repository,
 	}
@@ -75,6 +75,11 @@ func (usecase *UserUsecaseImpl) Login(ctx context.Context, user *entity.User) (a
 	result, ok := usecase.Repository.Login(ctx, user)
 	if !ok {
 		return api.UserResponse{}, commonErr.ErrNotFound
+	}
+
+	errCreds := bcrypt.CompareHashAndPassword([]byte(result.Password), []byte(user.Password))
+	if errCreds != nil {
+		return resp, commonErr.ErrUnauthorized
 	}
 
 	token, err := commonJwt.JwtClaims(

@@ -16,11 +16,13 @@ type UserHandlerImpl struct {
 	Usecase usecase.UserUsecase
 }
 
-func _(usecase usecase.UserUsecase, router *chi.Mux) {
+func NewUserHandler(usecase usecase.UserUsecase, router chi.Router) error {
 	handler := &UserHandlerImpl{Usecase: usecase}
 
-	router.Post("v1/authentication/register", handler.Register)
-	router.Post("v1/authentication/login", handler.Login)
+	router.Post("/v1/authentication/register", handler.Register)
+	router.Post("/v1/authentication/login", handler.Login)
+
+	return nil
 }
 
 func (handler *UserHandlerImpl) Register(w http.ResponseWriter, r *http.Request) {
